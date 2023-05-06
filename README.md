@@ -1,11 +1,16 @@
-# fresh project
+# lastfm-intersector
 
-### Usage
+## Abstract
 
-Start the project:
+Search artists' similar artists by name and intersect whole results. Created as
+an experiment of Deno Deploy.
+
+<img src="capture.png" />
+
+### Development
+
+Start the project on Gitpod and run the following:
 
 ```
 deno task start
 ```
-
-This will watch the project directory and restart as necessary.

@@ -4,3 +4,4 @@ image:
 vscode:
   extensions:
     - denoland.vscode-deno
+    - formulahendry.auto-rename-tag
