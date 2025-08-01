@@ -9,52 +9,60 @@ interface FormProps {
 
 export default function Counter(props: FormProps) {
   const refInput = createRef<HTMLInputElement>();
-  const [focused, setFocused] = useState(false);
   const [value, setValue] = useState(props.value || "");
   const { similarArtists, setSimilarArtists } = useContext(SimilarArtists);
-  const focusTextbox = function (e: KeyboardEvent) {
-    if (focused) {
-      if (e.key === "Escape") {
-        e.preventDefault();
+  const focusTextbox = function (ev: KeyboardEvent) {
+    if (ev.target === null) {
+      return;
+    }
+    if (
+      ["INPUT", "TEXTAREA"].includes((ev.target as HTMLElement).nodeName) ||
+      (ev.target as HTMLElement).isContentEditable
+    ) {
+      if (ev.key === "Escape") {
+        ev.preventDefault();
         setValue("");
-        refInput.current!.blur();
       }
-    } else {
-      if (e.key === "/") {
-        e.preventDefault();
-        refInput.current!.focus();
-      }
-      if (e.metaKey && e.key === "k") {
-        e.preventDefault();
-        refInput.current!.focus();
-      }
+      return;
+    }
+    if (ev.key === "/") {
+      refInput.current!.focus();
+      ev.preventDefault();
+      return;
+    }
+    if (ev.metaKey && ev.key === "k") {
+      refInput.current!.focus();
+      ev.preventDefault();
+      return;
     }
   };
   useEffect(() => {
-    globalThis.addEventListener("keydown", focusTextbox);
-    return () => globalThis.removeEventListener("keydown", focusTextbox);
-  });
+    document.body.addEventListener("keydown", focusTextbox);
+    return () => {
+      document.body.removeEventListener("keydown", focusTextbox);
+    };
+  }, []);
   return (
     <form
       class="w-full	bg-gray-700"
       onSubmit={async (e: Event) => {
         e.preventDefault();
-        if (value.trim() === "") {
+        const v = value.trim();
+        if (v === "") {
           return;
         }
         const url = new URL(import.meta.url).origin + "/api/similarartists/" +
-          value;
+          v;
         const response = await fetch(url);
         const {
           error,
-          artist,
           similarartists: sim,
         } = await response.json() as Sim;
         if (error !== null) {
           throw error;
         }
         setSimilarArtists([{
-          artist,
+          artist: v,
           similarartists: sim,
         }].concat(similarArtists));
         setValue("");
@@ -83,8 +91,6 @@ export default function Counter(props: FormProps) {
           const newValue = (e.target as HTMLInputElement).value;
           setValue(newValue);
         }}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
         ref={refInput}
       />
       <span class="absolute -ml-12 w-12 text-center py-2.5 text-xs text-gray-400">

@@ -2,7 +2,7 @@ import { HandlerContext } from "$fresh/server.ts";
 
 const getEpSimilar = function (artist: string) {
   const LIMIT = 250;
-  const API_KEY = Deno.env.get("API_KEY");
+  const API_KEY = Deno.env.get("LASTFM_API_KEY");
   return [
     `http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar`,
     `&artist=${artist}`,

@@ -1,6 +1,22 @@
 {
-    "deno.enable": true,
-    "deno.lint": true,
-    "editor.defaultFormatter": "denoland.vscode-deno",
-    "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "deno.enable": true,
+  "deno.lint": true,
+  "editor.defaultFormatter": "denoland.vscode-deno",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "css.customData": [
+    ".vscode/tailwind.json"
+  ],
+  "deno.path": "/nix/store/w3ybb3va1xhcb3z9i6d27h0ikrkavp7n-deno-2.4.2/bin/deno"
 }
